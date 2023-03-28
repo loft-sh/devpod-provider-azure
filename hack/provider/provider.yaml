@@ -1,0 +1,72 @@
+name: azure
+version: ##VERSION##
+description: |-
+  DevPod on Azure Cloud
+options:
+  AZURE_SUBSCRIPTION_ID:
+    description: The azure subscription id
+    required: true
+    command: az account show --query id --output tsv || true
+  AZURE_RESOURCE_GROUP:
+    description: The azure resource group name
+    required: true
+    command: printf "%s" "${AZURE_RESOURCE_GROUP:-$(az group list | jq '.[0].name' | tr -d '\"')}" || true
+  AZURE_DISK_SIZE:
+    description: The disk size to use.
+    default: "40"
+  AZURE_IMAGE:
+    description: The disk image to use.
+    default: "Canonical:UbuntuServer:18.04-LTS:latest"
+  AZURE_INSTANCE_SIZE:
+    description: The machine type to use.
+    default: "Standard_D11_v2"
+  INACTIVITY_TIMEOUT:
+    description: If defined, will automatically stop the VM after the inactivity period.
+    default: 10m
+  INJECT_GIT_CREDENTIALS:
+    description: "If DevPod should inject git credentials into the remote host."
+    default: "true"
+  INJECT_DOCKER_CREDENTIALS:
+    description: "If DevPod should inject docker credentials into the remote host."
+    default: "true"
+  AGENT_PATH:
+    description: The path where to inject the DevPod agent to.
+    default: /var/lib/toolbox/devpod
+agent:
+  path: ${AGENT_PATH}
+  inactivityTimeout: ${INACTIVITY_TIMEOUT}
+  injectGitCredentials: ${INJECT_GIT_CREDENTIALS}
+  injectDockerCredentials: ${INJECT_DOCKER_CREDENTIALS}
+  exec:
+    shutdown: |-
+      shutdown -h now
+binaries:
+  AZURE_PROVIDER:
+    - os: linux
+      arch: amd64
+      path: https://github.com/loft-sh/devpod-provider-azure/releases/download/##VERSION##/devpod-provider-azure-linux-amd64
+      checksum: ##CHECKSUM_LINUX_AMD64##
+    - os: linux
+      arch: arm64
+      path: https://github.com/loft-sh/devpod-provider-azure/releases/download/##VERSION##/devpod-provider-azure-linux-arm64
+      checksum: ##CHECKSUM_LINUX_ARM64##
+    - os: darwin
+      arch: amd64
+      path: https://github.com/loft-sh/devpod-provider-azure/releases/download/##VERSION##/devpod-provider-azure-darwin-amd64
+      checksum: ##CHECKSUM_DARWIN_AMD64##
+    - os: darwin
+      arch: arm64
+      path: https://github.com/loft-sh/devpod-provider-azure/releases/download/##VERSION##/devpod-provider-azure-darwin-arm64
+      checksum: ##CHECKSUM_DARWIN_ARM64##
+    - os: windows
+      arch: amd64
+      path: https://github.com/loft-sh/devpod-provider-azure/releases/download/##VERSION##/devpod-provider-azure-windows-amd64.exe
+      checksum: ##CHECKSUM_WINDOWS_AMD64##
+exec:
+  init: ${AZURE_PROVIDER} init
+  command: ${AZURE_PROVIDER} command
+  create: ${AZURE_PROVIDER} create
+  delete: ${AZURE_PROVIDER} delete
+  start: ${AZURE_PROVIDER} start
+  stop: ${AZURE_PROVIDER} stop
+  status: ${AZURE_PROVIDER} status

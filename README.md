@@ -41,6 +41,7 @@ This provides has the seguent options
 | AZURE_DISK_SIZE           | false    | The disk size to use.          | 40                                      |
 | AZURE_IMAGE               | false    | The disk image to use.         | Canonical:UbuntuServer:18.04-LTS:latest |
 | AZURE_INSTANCE_SIZE       | false    | The machine type to use.       | Standard_D11_v2                         |
+| AZURE_REGION              | true     | The azure region to use        |                                         |
 | AZURE_RESOURCE_GROUP      | true     | The azure resource group name  |                                         |
 | AZURE_SUBSCRIPTION_ID     | true     | The azure subscription id      |                                         |
 

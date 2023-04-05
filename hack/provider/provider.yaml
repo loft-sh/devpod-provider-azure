@@ -11,6 +11,10 @@ options:
     description: The azure resource group name
     required: true
     command: printf "%s" "${AZURE_RESOURCE_GROUP:-$(az group list | jq '.[0].name' | tr -d '\"')}" || true
+  AZURE_REGION:
+    description: The azure region to use
+    required: true
+    command: printf "%s" "${AZURE_REGION:-" || true
   AZURE_DISK_SIZE:
     description: The disk size to use.
     default: "40"

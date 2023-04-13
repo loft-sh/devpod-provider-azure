@@ -2,6 +2,20 @@ name: azure
 version: ##VERSION##
 description: |-
   DevPod on Azure Cloud
+optionGroups:
+  - options:
+      - AGENT_PATH
+      - INACTIVITY_TIMEOUT
+      - INJECT_DOCKER_CREDENTIALS
+      - INJECT_GIT_CREDENTIALS
+    name: "Agent options"
+    defaultVisible: false
+  - options:
+      - AZURE_DISK_SIZE
+      - AZURE_IMAGE
+      - AZURE_INSTANCE_SIZE
+    name: "Azure options"
+    defaultVisible: true
 options:
   AZURE_SUBSCRIPTION_ID:
     description: The azure subscription id
@@ -15,6 +29,87 @@ options:
     description: The azure region to use
     required: true
     command: printf "%s" "${AZURE_REGION:-}" || true
+    suggestions:
+      - asia
+      - asiapacific
+      - australia
+      - australiacentral
+      - australiacentral2
+      - australiaeast
+      - australiasoutheast
+      - brazil
+      - brazilsouth
+      - brazilsoutheast
+      - brazilus
+      - canada
+      - canadacentral
+      - canadaeast
+      - centralindia
+      - centralus
+      - centraluseuap
+      - centralusstage
+      - devfabric
+      - eastasia
+      - eastasiastage
+      - eastus
+      - eastus2
+      - eastus2euap
+      - eastus2stage
+      - eastusstage
+      - eastusstg
+      - europe
+      - france
+      - francecentral
+      - francesouth
+      - germany
+      - germanynorth
+      - germanywestcentral
+      - global
+      - india
+      - japan
+      - japaneast
+      - japanwest
+      - jioindiacentral
+      - jioindiawest
+      - korea
+      - koreacentral
+      - koreasouth
+      - northcentralus
+      - northcentralusstage
+      - northeurope
+      - norway
+      - norwayeast
+      - norwaywest
+      - qatarcentral
+      - singapore
+      - southafrica
+      - southafricanorth
+      - southafricawest
+      - southcentralus
+      - southcentralusstage
+      - southeastasia
+      - southeastasiastage
+      - southindia
+      - swedencentral
+      - switzerland
+      - switzerlandnorth
+      - switzerlandwest
+      - uae
+      - uaecentral
+      - uaenorth
+      - uk
+      - uksouth
+      - ukwest
+      - unitedstates
+      - unitedstateseuap
+      - westcentralus
+      - westeurope
+      - westindia
+      - westus
+      - westus2
+      - westus2stage
+      - westus3
+      - westusstage
   AZURE_DISK_SIZE:
     description: The disk size to use.
     default: "40"

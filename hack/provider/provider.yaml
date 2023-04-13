@@ -2,6 +2,7 @@ name: azure
 version: ##VERSION##
 description: |-
   DevPod on Azure Cloud
+icon: https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-ar21.svg
 optionGroups:
   - options:
       - AGENT_PATH

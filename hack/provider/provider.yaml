@@ -2,8 +2,14 @@ name: azure
 version: ##VERSION##
 description: |-
   DevPod on Azure Cloud
-icon: https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-ar21.svg
+icon: https://www.civo.com/brand-assets/logo/full-colour/civo-logo-fullcolour.png
 optionGroups:
+  - options:
+      - AZURE_DISK_SIZE
+      - AZURE_IMAGE
+      - AZURE_INSTANCE_SIZE
+    name: "Azure options"
+    defaultVisible: true
   - options:
       - AGENT_PATH
       - INACTIVITY_TIMEOUT
@@ -11,12 +17,6 @@ optionGroups:
       - INJECT_GIT_CREDENTIALS
     name: "Agent options"
     defaultVisible: false
-  - options:
-      - AZURE_DISK_SIZE
-      - AZURE_IMAGE
-      - AZURE_INSTANCE_SIZE
-    name: "Azure options"
-    defaultVisible: true
 options:
   AZURE_SUBSCRIPTION_ID:
     description: The azure subscription id
@@ -119,7 +119,11 @@ options:
     default: "Canonical:UbuntuServer:18.04-LTS:latest"
   AZURE_INSTANCE_SIZE:
     description: The machine type to use.
-    default: "Standard_D11_v2"
+    default: "Standard_D4s_v3"
+    suggestions:
+      - Standard_D2s_v3
+      - Standard_E2s_v3
+      - Standard_D2s_v3
   INACTIVITY_TIMEOUT:
     description: If defined, will automatically stop the VM after the inactivity period.
     default: 10m

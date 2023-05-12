@@ -71,5 +71,5 @@ func (cmd *CommandCmd) Run(
 	defer sshClient.Close()
 
 	// run command
-	return ssh.Run(sshClient, command, os.Stdin, os.Stdout, os.Stderr)
+	return ssh.Run(ctx, sshClient, command, os.Stdin, os.Stdout, os.Stderr)
 }

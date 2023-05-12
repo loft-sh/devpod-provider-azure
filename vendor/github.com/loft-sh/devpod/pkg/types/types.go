@@ -2,8 +2,9 @@ package types
 
 import (
 	"encoding/json"
-	"github.com/pkg/errors"
 	"strconv"
+
+	"github.com/pkg/errors"
 )
 
 var (
@@ -20,7 +21,7 @@ func (sa *StrIntArray) UnmarshalJSON(data []byte) error {
 	var jsonObj interface{}
 	err := json.Unmarshal(data, &jsonObj)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "unmarshal str int array")
 	}
 	switch obj := jsonObj.(type) {
 	case string:
@@ -34,9 +35,15 @@ func (sa *StrIntArray) UnmarshalJSON(data []byte) error {
 		for _, v := range obj {
 			value, ok := v.(string)
 			if !ok {
-				return ErrUnsupportedType
+				intValue, ok := v.(int)
+				if !ok {
+					return ErrUnsupportedType
+				} else {
+					s = append(s, strconv.Itoa(intValue))
+				}
+			} else {
+				s = append(s, value)
 			}
-			s = append(s, value)
 		}
 		*sa = StrIntArray(s)
 		return nil

@@ -2,7 +2,7 @@ name: azure
 version: ##VERSION##
 description: |-
   DevPod on Azure Cloud
-icon: https://www.civo.com/brand-assets/logo/full-colour/civo-logo-fullcolour.png
+icon: https://devpod.sh/assets/azure.svg
 optionGroups:
   - options:
       - AZURE_DISK_SIZE

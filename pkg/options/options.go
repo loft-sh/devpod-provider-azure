@@ -14,6 +14,7 @@ var (
 	AZURE_INSTANCE_SIZE   = "AZURE_INSTANCE_SIZE"
 	AZURE_IMAGE           = "AZURE_IMAGE"
 	AZURE_RESOURCE_GROUP  = "AZURE_RESOURCE_GROUP"
+	AZURE_DISK_TYPE       = "AZURE_DISK_TYPE"
 	AZURE_DISK_SIZE       = "AZURE_DISK_SIZE"
 	AZURE_DISK_IMAGE      = "AZURE_DISK_IMAGE"
 	AZURE_SUBSCRIPTION_ID = "AZURE_SUBSCRIPTION_ID"
@@ -22,6 +23,7 @@ var (
 type Options struct {
 	DiskImage      AzureImage
 	DiskSizeGB     int
+	DiskType       string
 	MachineFolder  string
 	MachineID      string
 	MachineType    string
@@ -72,6 +74,11 @@ func FromEnv(init bool) (*Options, error) {
 	}
 
 	retOptions.DiskSizeGB, err = strconv.Atoi(diskSizeGB)
+	if err != nil {
+		return nil, err
+	}
+
+	retOptions.DiskType, err = fromEnvOrError(AZURE_DISK_TYPE)
 	if err != nil {
 		return nil, err
 	}

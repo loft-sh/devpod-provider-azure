@@ -87,7 +87,6 @@ func createSubnets(ctx context.Context, azureProvider *AzureProvider) (*armnetwo
 func createNetworkSecurityGroup(
 	ctx context.Context,
 	azureProvider *AzureProvider,
-
 ) (*armnetwork.SecurityGroup, error) {
 	nsgClient, err := armnetwork.NewSecurityGroupsClient(azureProvider.Config.SubscriptionID, azureProvider.Cred, nil)
 	if err != nil {
@@ -158,7 +157,6 @@ func createNetworkSecurityGroup(
 func createPublicIP(
 	ctx context.Context,
 	azureProvider *AzureProvider,
-
 ) (*armnetwork.PublicIPAddress, error) {
 	publicIPAddressClient, err := armnetwork.NewPublicIPAddressesClient(azureProvider.Config.SubscriptionID, azureProvider.Cred, nil)
 	if err != nil {
@@ -208,7 +206,7 @@ func createNetWorkInterface(
 	parameters := armnetwork.Interface{
 		Location: to.Ptr(azureProvider.Config.Zone),
 		Properties: &armnetwork.InterfacePropertiesFormat{
-			//NetworkSecurityGroup:
+			// NetworkSecurityGroup:
 			IPConfigurations: []*armnetwork.InterfaceIPConfiguration{
 				{
 					Name: to.Ptr("ipConfig"),
@@ -289,7 +287,7 @@ func createVirtualMachine(
 					Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
 					ManagedDisk: &armcompute.ManagedDiskParameters{
 						StorageAccountType: to.Ptr(
-							armcompute.StorageAccountTypesStandardLRS,
+							armcompute.StorageAccountTypes(azureProvider.Config.DiskType),
 						), // OSDisk type Standard/Premium HDD/SSD
 					},
 					DiskSizeGB: to.Ptr[int32](int32(azureProvider.Config.DiskSizeGB)),

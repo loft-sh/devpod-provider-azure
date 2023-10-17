@@ -6,6 +6,7 @@ icon: https://devpod.sh/assets/azure.svg
 optionGroups:
   - options:
       - AZURE_DISK_SIZE
+      - AZURE_DISK_TYPE
       - AZURE_IMAGE
       - AZURE_INSTANCE_SIZE
     name: "Azure options"
@@ -117,6 +118,16 @@ options:
   AZURE_IMAGE:
     description: The disk image to use.
     default: "Canonical:UbuntuServer:18.04-LTS:latest"
+  AZURE_DISK_TYPE:
+    description: The disk type to use.
+    default: "Standard_LRS"
+    suggestions:
+      - Standard_LRS
+      - StandardSSD_LRS
+      - StandardSSD_ZRS
+      - Premium_LRS
+      - PremiumV2_LRS
+      - Premium_ZRS
   AZURE_INSTANCE_SIZE:
     description: The machine type to use.
     default: "Standard_D4s_v3"

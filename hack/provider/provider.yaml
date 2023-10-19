@@ -32,95 +32,56 @@ options:
     required: true
     command: printf "%s" "${AZURE_REGION:-}" || true
     suggestions:
-      - asia
-      - asiapacific
-      - australia
       - australiacentral
-      - australiacentral2
       - australiaeast
       - australiasoutheast
-      - brazil
       - brazilsouth
-      - brazilsoutheast
-      - brazilus
-      - canada
       - canadacentral
       - canadaeast
       - centralindia
       - centralus
-      - centraluseuap
-      - centralusstage
-      - devfabric
       - eastasia
-      - eastasiastage
       - eastus
       - eastus2
-      - eastus2euap
-      - eastus2stage
-      - eastusstage
-      - eastusstg
-      - europe
-      - france
       - francecentral
-      - francesouth
-      - germany
-      - germanynorth
       - germanywestcentral
-      - global
-      - india
-      - japan
+      - israelcentral
+      - italynorth
       - japaneast
       - japanwest
-      - jioindiacentral
       - jioindiawest
-      - korea
       - koreacentral
       - koreasouth
       - northcentralus
-      - northcentralusstage
       - northeurope
-      - norway
       - norwayeast
-      - norwaywest
+      - polandcentral
       - qatarcentral
-      - singapore
-      - southafrica
       - southafricanorth
-      - southafricawest
       - southcentralus
-      - southcentralusstage
       - southeastasia
-      - southeastasiastage
       - southindia
       - swedencentral
-      - switzerland
       - switzerlandnorth
-      - switzerlandwest
-      - uae
-      - uaecentral
       - uaenorth
-      - uk
       - uksouth
       - ukwest
-      - unitedstates
-      - unitedstateseuap
       - westcentralus
       - westeurope
       - westindia
       - westus
       - westus2
-      - westus2stage
       - westus3
-      - westusstage
+
   AZURE_DISK_SIZE:
     description: The disk size to use.
     default: "40"
   AZURE_IMAGE:
     description: The disk image to use.
-    default: "Canonical:UbuntuServer:18.04-LTS:latest"
+    default: "Canonical:0001-com-ubuntu-server-jammy:22_04-lts-gen2:latest"
   AZURE_DISK_TYPE:
     description: The disk type to use.
-    default: "Standard_LRS"
+    default: "StandardSSD_LRS"
     suggestions:
       - Standard_LRS
       - StandardSSD_LRS
@@ -132,9 +93,44 @@ options:
     description: The machine type to use.
     default: "Standard_D4s_v3"
     suggestions:
+      - Standard_B12ms
+      - Standard_B16ms
+      - Standard_B1ms
+      - Standard_B1s
+      - Standard_B20ms
+      - Standard_B2ms
+      - Standard_B2s
+      - Standard_B4ms
+      - Standard_B8ms
+      - Standard_D16s_v3
       - Standard_D2s_v3
+      - Standard_D32s_v3
+      - Standard_D48s_v3
+      - Standard_D4s_v3
+      - Standard_D64s_v3
+      - Standard_D8s_v3
+      - Standard_DS1_v2
+      - Standard_DS2_v2
+      - Standard_DS3_v2
+      - Standard_DS4_v2
+      - Standard_DS5_v2
+      - Standard_E16s_v3
+      - Standard_E20s_v3
       - Standard_E2s_v3
-      - Standard_D2s_v3
+      - Standard_E32s_v3
+      - Standard_E48s_v3
+      - Standard_E4s_v3
+      - Standard_E64s_v3
+      - Standard_E8s_v3
+      - Standard_F16s_v2
+      - Standard_F2s_v2
+      - Standard_F32s_v2
+      - Standard_F48s_v2
+      - Standard_F4s_v2
+      - Standard_F64s_v2
+      - Standard_F72s_v2
+      - Standard_F8s_v2
+
   INACTIVITY_TIMEOUT:
     description: If defined, will automatically stop the VM after the inactivity period.
     default: 10m

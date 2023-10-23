@@ -301,7 +301,8 @@ func createVirtualMachine(
 			OSProfile: &armcompute.OSProfile{ //
 				ComputerName:  to.Ptr(azureProvider.Config.MachineID),
 				AdminUsername: to.Ptr("devpod"),
-				CustomData:    to.Ptr(azureProvider.Config.CustomData),
+				// Custom data in OSProfile must be in Base64-encoded
+				CustomData: to.Ptr(base64.StdEncoding.EncodeToString([]byte(azureProvider.Config.CustomData))),
 				LinuxConfiguration: &armcompute.LinuxConfiguration{
 					DisablePasswordAuthentication: to.Ptr(true),
 					SSH: &armcompute.SSHConfiguration{

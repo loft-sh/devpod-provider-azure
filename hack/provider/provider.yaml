@@ -136,8 +136,7 @@ options:
       - Standard_F72s_v2
       - Standard_F8s_v2
   AZURE_CUSTOM_DATA:
-    description: The custom data to inject into the VM.
-    default: ""
+    description: The custom data to inject into the VM. E.g cloud-init.txt
 
   INACTIVITY_TIMEOUT:
     description: If defined, will automatically stop the VM after the inactivity period.

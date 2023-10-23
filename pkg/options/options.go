@@ -84,10 +84,8 @@ func FromEnv(init bool) (*Options, error) {
 		return nil, err
 	}
 
-	retOptions.CustomData, err = fromEnvOrError(AZURE_CUSTOM_DATA)
-	if err != nil {
-		return nil, err
-	}
+	// Optional
+	retOptions.CustomData = os.Getenv(AZURE_CUSTOM_DATA)
 
 	retOptions.Zone, err = fromEnvOrError(AZURE_REGION)
 	if err != nil {

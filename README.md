@@ -41,7 +41,7 @@ This provides has the seguent options
 |    NAME           | REQUIRED |          DESCRIPTION                  |         DEFAULT         |
 |-------------------|----------|---------------------------------------|-------------------------|
 | AZURE_DISK_SIZE           | false    | The disk size to use.          | 40                                      |
-| AZURE_IMAGE               | false    | The disk image to use.         | Canonical:UbuntuServer:18.04-LTS:latest |
+| AZURE_IMAGE               | false    | The disk image to use.         | Canonical:0001-com-ubuntu-server-jammy:22_04-lts-gen2:latest |
 | AZURE_INSTANCE_SIZE       | false    | The machine type to use.       | Standard_D11_v2                         |
 | AZURE_REGION              | true     | The azure region to use        |                                         |
 | AZURE_RESOURCE_GROUP      | true     | The azure resource group name  |                                         |

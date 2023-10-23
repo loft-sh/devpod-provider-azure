@@ -9,6 +9,7 @@ optionGroups:
       - AZURE_DISK_TYPE
       - AZURE_IMAGE
       - AZURE_INSTANCE_SIZE
+      - AZURE_CUSTOM_DATA
     name: "Azure options"
     defaultVisible: true
   - options:
@@ -19,7 +20,7 @@ optionGroups:
     name: "Agent options"
     defaultVisible: false
   - options:
-      - AZURE_CUSTOM_DATA
+      - 
     name: "Advanced options"
     defaultVisible: false
 options:
@@ -134,7 +135,6 @@ options:
       - Standard_F64s_v2
       - Standard_F72s_v2
       - Standard_F8s_v2
-
   AZURE_CUSTOM_DATA:
     description: The custom data to inject into the VM.
     default: ""

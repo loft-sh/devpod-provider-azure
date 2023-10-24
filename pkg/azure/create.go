@@ -269,11 +269,9 @@ func createVirtualMachine(
 
 	// CustomData is cloud-init file or base64 encoded string
 	if azureProvider.Config.CustomData != "" {
-
-		// CustomData is base64 encoded string
-		if _, err := base64.StdEncoding.DecodeString(azureProvider.Config.CustomData); err == nil {
-			// do nothing, already base64 encoded
-		} else if _, err := os.Stat(azureProvider.Config.CustomData); err == nil {
+		
+		// CustomData is a filename
+		if _, err := os.Stat(azureProvider.Config.CustomData); err == nil {
 			customData, err := os.ReadFile(azureProvider.Config.CustomData)
 			if err != nil {
 				return nil, err
@@ -281,7 +279,9 @@ func createVirtualMachine(
 
 			customDataBase64 := base64.StdEncoding.EncodeToString(customData)
 			azureProvider.Config.CustomData = customDataBase64
-		} else {
+		
+		// CustomData is not a base64 encoded string
+		} else if _, err := base64.StdEncoding.DecodeString(azureProvider.Config.CustomData); err != nil {
 			return nil, fmt.Errorf("custom data is not base64 encoded string or file")
 		}
 

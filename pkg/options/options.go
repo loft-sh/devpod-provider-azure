@@ -16,6 +16,7 @@ var (
 	AZURE_RESOURCE_GROUP  = "AZURE_RESOURCE_GROUP"
 	AZURE_DISK_TYPE       = "AZURE_DISK_TYPE"
 	AZURE_DISK_SIZE       = "AZURE_DISK_SIZE"
+	AZURE_CUSTOM_DATA     = "AZURE_CUSTOM_DATA"
 	AZURE_SUBSCRIPTION_ID = "AZURE_SUBSCRIPTION_ID"
 )
 
@@ -23,6 +24,7 @@ type Options struct {
 	DiskImage      AzureImage
 	DiskSizeGB     int
 	DiskType       string
+	CustomData     string
 	MachineFolder  string
 	MachineID      string
 	MachineType    string
@@ -81,6 +83,9 @@ func FromEnv(init bool) (*Options, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	// Optional
+	retOptions.CustomData = os.Getenv(AZURE_CUSTOM_DATA)
 
 	retOptions.Zone, err = fromEnvOrError(AZURE_REGION)
 	if err != nil {

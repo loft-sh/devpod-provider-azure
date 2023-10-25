@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"os"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
@@ -266,6 +267,26 @@ func createVirtualMachine(
 		return nil, err
 	}
 
+	// CustomData is cloud-init file or base64 encoded string
+	if azureProvider.Config.CustomData != "" {
+		
+		// CustomData is a filename
+		if _, err := os.Stat(azureProvider.Config.CustomData); err == nil {
+			customData, err := os.ReadFile(azureProvider.Config.CustomData)
+			if err != nil {
+				return nil, err
+			}
+
+			customDataBase64 := base64.StdEncoding.EncodeToString(customData)
+			azureProvider.Config.CustomData = customDataBase64
+		
+		// CustomData is not a base64 encoded string
+		} else if _, err := base64.StdEncoding.DecodeString(azureProvider.Config.CustomData); err != nil {
+			return nil, fmt.Errorf("custom data is not base64 encoded string or file")
+		}
+
+	}
+
 	parameters := armcompute.VirtualMachine{
 		Location: to.Ptr(azureProvider.Config.Zone),
 		Identity: &armcompute.VirtualMachineIdentity{
@@ -301,6 +322,7 @@ func createVirtualMachine(
 			OSProfile: &armcompute.OSProfile{ //
 				ComputerName:  to.Ptr(azureProvider.Config.MachineID),
 				AdminUsername: to.Ptr("devpod"),
+				CustomData:    to.Ptr(azureProvider.Config.CustomData),
 				LinuxConfiguration: &armcompute.LinuxConfiguration{
 					DisablePasswordAuthentication: to.Ptr(true),
 					SSH: &armcompute.SSHConfiguration{

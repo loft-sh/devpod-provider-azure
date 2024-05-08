@@ -10,15 +10,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// StopCmd holds the cmd flags
-type StopCmd struct{}
+// StopRemoteCmd holds the cmd flags
+type StopRemoteCmd struct{}
 
-// NewStopCmd defines a command
-func NewStopCmd() *cobra.Command {
-	cmd := &StopCmd{}
-	stopCmd := &cobra.Command{
-		Use:   "stop",
-		Short: "Stop an instance",
+// NewStopRemoteCmd defines a command
+func NewStopRemoteCmd() *cobra.Command {
+	cmd := &StopRemoteCmd{}
+	stopRemoteCmd := &cobra.Command{
+		Use:   "stop-remote",
+		Short: "StopRemote an instance",
 		RunE: func(_ *cobra.Command, args []string) error {
 			azureProvider, err := azure.NewProvider(log.Default)
 			if err != nil {
@@ -34,15 +34,15 @@ func NewStopCmd() *cobra.Command {
 		},
 	}
 
-	return stopCmd
+	return stopRemoteCmd
 }
 
 // Run runs the command logic
-func (cmd *StopCmd) Run(
+func (cmd *StopRemoteCmd) Run(
 	ctx context.Context,
 	providerAzure *azure.AzureProvider,
 	machine *provider.Machine,
 	logs log.Logger,
 ) error {
-	return azure.Stop(ctx, providerAzure)
+	return azure.StopRemote(ctx, providerAzure)
 }

@@ -45,17 +45,17 @@ func FromEnv(init bool) (*Options, error) {
 
 	var err error
 
-	retOptions.ResourceGroup, err = fromEnvOrError(AZURE_RESOURCE_GROUP)
+	retOptions.ResourceGroup, err = FromEnvOrError(AZURE_RESOURCE_GROUP)
 	if err != nil {
 		return nil, err
 	}
 
-	retOptions.MachineType, err = fromEnvOrError(AZURE_INSTANCE_SIZE)
+	retOptions.MachineType, err = FromEnvOrError(AZURE_INSTANCE_SIZE)
 	if err != nil {
 		return nil, err
 	}
 
-	image, err := fromEnvOrError(AZURE_IMAGE)
+	image, err := FromEnvOrError(AZURE_IMAGE)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func FromEnv(init bool) (*Options, error) {
 	retOptions.DiskImage.SKU = imageSplit[2]
 	retOptions.DiskImage.Version = imageSplit[3]
 
-	diskSizeGB, err := fromEnvOrError(AZURE_DISK_SIZE)
+	diskSizeGB, err := FromEnvOrError(AZURE_DISK_SIZE)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func FromEnv(init bool) (*Options, error) {
 		return nil, err
 	}
 
-	retOptions.DiskType, err = fromEnvOrError(AZURE_DISK_TYPE)
+	retOptions.DiskType, err = FromEnvOrError(AZURE_DISK_TYPE)
 	if err != nil {
 		return nil, err
 	}
@@ -87,12 +87,12 @@ func FromEnv(init bool) (*Options, error) {
 	// Optional
 	retOptions.CustomData = os.Getenv(AZURE_CUSTOM_DATA)
 
-	retOptions.Zone, err = fromEnvOrError(AZURE_REGION)
+	retOptions.Zone, err = FromEnvOrError(AZURE_REGION)
 	if err != nil {
 		return nil, err
 	}
 
-	retOptions.SubscriptionID, err = fromEnvOrError(AZURE_SUBSCRIPTION_ID)
+	retOptions.SubscriptionID, err = FromEnvOrError(AZURE_SUBSCRIPTION_ID)
 	if err != nil {
 		return nil, err
 	}
@@ -102,14 +102,14 @@ func FromEnv(init bool) (*Options, error) {
 		return retOptions, nil
 	}
 
-	retOptions.MachineID, err = fromEnvOrError("MACHINE_ID")
+	retOptions.MachineID, err = FromEnvOrError("MACHINE_ID")
 	if err != nil {
 		return nil, err
 	}
 	// prefix with devpod-
 	retOptions.MachineID = "devpod-" + retOptions.MachineID
 
-	retOptions.MachineFolder, err = fromEnvOrError("MACHINE_FOLDER")
+	retOptions.MachineFolder, err = FromEnvOrError("MACHINE_FOLDER")
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +117,7 @@ func FromEnv(init bool) (*Options, error) {
 	return retOptions, nil
 }
 
-func fromEnvOrError(name string) (string, error) {
+func FromEnvOrError(name string) (string, error) {
 	val := os.Getenv(name)
 	if val == "" {
 		return "", fmt.Errorf(

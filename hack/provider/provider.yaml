@@ -151,14 +151,31 @@ options:
   AGENT_PATH:
     description: The path where to inject the DevPod agent to.
     default: /var/lib/toolbox/devpod
+  AZURE_PROVIDER_TOKEN:
+    local: true
+    hidden: true
+    cache: 5m
+    description: "The Azure Cloud auth token to use"
+    command: |-
+      ${AZURE_PROVIDER} token
 agent:
   path: ${AGENT_PATH}
   inactivityTimeout: ${INACTIVITY_TIMEOUT}
   injectGitCredentials: ${INJECT_GIT_CREDENTIALS}
   injectDockerCredentials: ${INJECT_DOCKER_CREDENTIALS}
+  binaries:
+    AZURE_PROVIDER:
+      - os: linux
+        arch: amd64
+        path: https://github.com/loft-sh/devpod-provider-azure/releases/download/##VERSION##/devpod-provider-azure-linux-amd64
+        checksum: ##CHECKSUM_LINUX_AMD64##
+      - os: linux
+        arch: arm64
+        path: https://github.com/loft-sh/devpod-provider-azure/releases/download/##VERSION##/devpod-provider-azure-linux-arm64
+        checksum: ##CHECKSUM_LINUX_ARM64##
   exec:
     shutdown: |-
-      shutdown -h now
+      ${AZURE_PROVIDER} stop-remote || shutdown
 binaries:
   AZURE_PROVIDER:
     - os: linux

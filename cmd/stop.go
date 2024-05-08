@@ -44,5 +44,5 @@ func (cmd *StopCmd) Run(
 	machine *provider.Machine,
 	logs log.Logger,
 ) error {
-	return nil
+	return azure.Stop(ctx, providerAzure)
 }

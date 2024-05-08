@@ -2,6 +2,10 @@ package azure
 
 import (
 	"context"
+	"fmt"
+	"net/http"
+	"os/exec"
+	"strings"
 
 	"github.com/loft-sh/devpod/pkg/client"
 	"github.com/loft-sh/devpod/pkg/log"
@@ -158,7 +162,7 @@ func Stop(ctx context.Context, azureProvider *AzureProvider) error {
 	if err != nil {
 		return err
 	}
-	pollerResponse, err := vmClient.BeginPowerOff(
+	pollerResponse, err := vmClient.BeginDeallocate(
 		ctx,
 		azureProvider.Config.ResourceGroup,
 		azureProvider.Config.MachineID,
@@ -173,6 +177,51 @@ func Stop(ctx context.Context, azureProvider *AzureProvider) error {
 		return err
 	}
 
+	return nil
+}
+
+// we fallback to use direct http request for this as we'll be on the remote machine.
+func StopRemote(ctx context.Context, azureProvider *AzureProvider) error {
+	client := &http.Client{}
+
+	data := strings.NewReader(``)
+
+	token, err := options.FromEnvOrError("AZURE_PROVIDER_TOKEN")
+	if err != nil {
+		return err
+	}
+
+	url := "https://management.azure.com/subscriptions/" +
+		azureProvider.Config.SubscriptionID + "/resourceGroups/" +
+		azureProvider.Config.ResourceGroup + "/providers/Microsoft.Compute/virtualMachines/" +
+		azureProvider.Config.MachineID + "/deallocate?api-version=2024-03-01"
+
+	req, err := http.NewRequest("POST", url, data)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	return nil
+}
+
+func Token(ctx context.Context, azureProvider *AzureProvider) error {
+	out, err := exec.Command("az", []string{"account", "get-access-token", "--query", "accessToken"}...).Output()
+	if err != nil {
+		return err
+	}
+
+	token := strings.ReplaceAll(string(out), "\"", "")
+	token = strings.Trim(token, "\n")
+
+	fmt.Println(token)
 	return nil
 }
 

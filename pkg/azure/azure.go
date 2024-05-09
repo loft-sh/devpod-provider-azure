@@ -4,13 +4,13 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"os/exec"
 	"strings"
 
 	"github.com/loft-sh/devpod/pkg/client"
 	"github.com/loft-sh/devpod/pkg/log"
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
@@ -213,13 +213,14 @@ func StopRemote(ctx context.Context, azureProvider *AzureProvider) error {
 }
 
 func Token(ctx context.Context, azureProvider *AzureProvider) error {
-	out, err := exec.Command("az", []string{"account", "get-access-token", "--query", "accessToken"}...).Output()
+	accessToken, err := azureProvider.Cred.GetToken(ctx, policy.TokenRequestOptions{
+		Scopes: []string{"https://management.azure.com/.default"},
+	})
 	if err != nil {
 		return err
 	}
 
-	token := strings.ReplaceAll(string(out), "\"", "")
-	token = strings.Trim(token, "\n")
+	token := strings.Trim(accessToken.Token, "\n")
 
 	fmt.Println(token)
 	return nil

@@ -139,6 +139,9 @@ options:
     description: |-
       The custom data to inject into the VM.
       E.g cloud-init.txt or base64 string
+  AZURE_TAGS:
+    description: Extra tags to apply to all created resources. Comma separated list, e.g. myTag=myvalue,myTag2=myValue2
+    type: string
   INACTIVITY_TIMEOUT:
     description: If defined, will automatically stop the VM after the inactivity period.
     default: 10m

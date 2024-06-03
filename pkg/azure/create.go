@@ -25,6 +25,7 @@ func createVirtualNetwork(ctx context.Context, azureProvider *AzureProvider) (*a
 
 	parameters := armnetwork.VirtualNetwork{
 		Location: to.Ptr(azureProvider.Config.Zone),
+		Tags:     azureProvider.Config.Tags,
 		Properties: &armnetwork.VirtualNetworkPropertiesFormat{
 			AddressSpace: &armnetwork.AddressSpace{
 				AddressPrefixes: []*string{
@@ -96,6 +97,7 @@ func createNetworkSecurityGroup(
 
 	parameters := armnetwork.SecurityGroup{
 		Location: to.Ptr(azureProvider.Config.Zone),
+		Tags:     azureProvider.Config.Tags,
 		Properties: &armnetwork.SecurityGroupPropertiesFormat{
 			SecurityRules: []*armnetwork.SecurityRule{
 				// Windows connection to virtual machine needs to open port 3389,RDP
@@ -166,6 +168,7 @@ func createPublicIP(
 
 	parameters := armnetwork.PublicIPAddress{
 		Location: to.Ptr(azureProvider.Config.Zone),
+		Tags:     azureProvider.Config.Tags,
 		Properties: &armnetwork.PublicIPAddressPropertiesFormat{
 			PublicIPAllocationMethod: to.Ptr(
 				armnetwork.IPAllocationMethodStatic,
@@ -194,7 +197,6 @@ func createPublicIP(
 func createNetWorkInterface(
 	ctx context.Context,
 	azureProvider *AzureProvider,
-
 	subnetID string,
 	publicIPID string,
 	networkSecurityGroupID string,
@@ -206,6 +208,7 @@ func createNetWorkInterface(
 
 	parameters := armnetwork.Interface{
 		Location: to.Ptr(azureProvider.Config.Zone),
+		Tags:     azureProvider.Config.Tags,
 		Properties: &armnetwork.InterfacePropertiesFormat{
 			// NetworkSecurityGroup:
 			IPConfigurations: []*armnetwork.InterfaceIPConfiguration{
@@ -269,7 +272,7 @@ func createVirtualMachine(
 
 	// CustomData is cloud-init file or base64 encoded string
 	if azureProvider.Config.CustomData != "" {
-		
+
 		// CustomData is a filename
 		if _, err := os.Stat(azureProvider.Config.CustomData); err == nil {
 			customData, err := os.ReadFile(azureProvider.Config.CustomData)
@@ -279,8 +282,8 @@ func createVirtualMachine(
 
 			customDataBase64 := base64.StdEncoding.EncodeToString(customData)
 			azureProvider.Config.CustomData = customDataBase64
-		
-		// CustomData is not a base64 encoded string
+
+			// CustomData is not a base64 encoded string
 		} else if _, err := base64.StdEncoding.DecodeString(azureProvider.Config.CustomData); err != nil {
 			return nil, fmt.Errorf("custom data is not base64 encoded string or file")
 		}
@@ -289,6 +292,7 @@ func createVirtualMachine(
 
 	parameters := armcompute.VirtualMachine{
 		Location: to.Ptr(azureProvider.Config.Zone),
+		Tags:     azureProvider.Config.Tags,
 		Identity: &armcompute.VirtualMachineIdentity{
 			Type: to.Ptr(armcompute.ResourceIdentityTypeNone),
 		},

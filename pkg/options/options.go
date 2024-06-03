@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
 	"github.com/pkg/errors"
 )
 
@@ -18,6 +19,7 @@ var (
 	AZURE_DISK_SIZE       = "AZURE_DISK_SIZE"
 	AZURE_CUSTOM_DATA     = "AZURE_CUSTOM_DATA"
 	AZURE_SUBSCRIPTION_ID = "AZURE_SUBSCRIPTION_ID"
+	AZURE_TAGS            = "AZURE_TAGS"
 )
 
 type Options struct {
@@ -31,6 +33,7 @@ type Options struct {
 	ResourceGroup  string
 	SubscriptionID string
 	Zone           string
+	Tags           map[string]*string
 }
 
 type AzureImage struct {
@@ -61,7 +64,7 @@ func FromEnv(init bool) (*Options, error) {
 	}
 	imageSplit := strings.Split(image, ":")
 	if len(imageSplit) < 4 {
-		return nil, errors.Errorf("Malformet image name")
+		return nil, errors.Errorf("Malformed image name")
 	}
 
 	retOptions.DiskImage.Offer = imageSplit[1]
@@ -97,6 +100,11 @@ func FromEnv(init bool) (*Options, error) {
 		return nil, err
 	}
 
+	retOptions.Tags, err = parseTags(os.Getenv(AZURE_TAGS))
+	if err != nil {
+		return nil, err
+	}
+
 	// Return eraly if we're just doing init
 	if init {
 		return retOptions, nil
@@ -128,4 +136,22 @@ func FromEnvOrError(name string) (string, error) {
 	}
 
 	return val, nil
+}
+
+func parseTags(tagsEnv string) (map[string]*string, error) {
+	tags := map[string]*string{}
+	if tagsEnv == "" {
+		return tags, nil
+	}
+
+	tagsRaw := strings.Split(tagsEnv, ",")
+	for _, tag := range tagsRaw {
+		splitTag := strings.SplitN(tag, "=", 2)
+		if len(splitTag) != 2 {
+			return tags, fmt.Errorf("Malformed tag, expected format tagName=tagValue: %s", tag)
+		}
+		tags[splitTag[0]] = to.Ptr[string](splitTag[1])
+	}
+
+	return tags, nil
 }

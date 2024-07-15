@@ -2,3 +2,4 @@ env
 devpod-provider-azure
 releases
 release
+.idea

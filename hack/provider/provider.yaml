@@ -202,10 +202,10 @@ binaries:
       path: https://github.com/loft-sh/devpod-provider-azure/releases/download/##VERSION##/devpod-provider-azure-windows-amd64.exe
       checksum: ##CHECKSUM_WINDOWS_AMD64##
 exec:
-  init: ${AZURE_PROVIDER} init
-  command: ${AZURE_PROVIDER} command
-  create: ${AZURE_PROVIDER} create
-  delete: ${AZURE_PROVIDER} delete
-  start: ${AZURE_PROVIDER} start
-  stop: ${AZURE_PROVIDER} stop
-  status: ${AZURE_PROVIDER} status
+  init: '"${AZURE_PROVIDER}" init'
+  command: '"${AZURE_PROVIDER}" command'
+  create: '"${AZURE_PROVIDER}" create'
+  delete: '"${AZURE_PROVIDER}" delete'
+  start: '"${AZURE_PROVIDER}" start'
+  stop: '"${AZURE_PROVIDER}" stop'
+  status: '"${AZURE_PROVIDER}" status'

@@ -18,6 +18,13 @@ import (
 	"github.com/loft-sh/devpod-provider-azure/pkg/options"
 )
 
+type AzureProvider struct {
+	Config           *options.Options
+	Cred             *azidentity.DefaultAzureCredential
+	Log              log.Logger
+	WorkingDirectory string
+}
+
 func NewProvider(logs log.Logger) (*AzureProvider, error) {
 	config, err := options.FromEnv(false)
 	if err != nil {

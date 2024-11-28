@@ -3,19 +3,9 @@ package azure
 import (
 	"context"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-	"github.com/loft-sh/devpod-provider-azure/pkg/options"
-	"github.com/loft-sh/devpod/pkg/log"
 )
-
-type AzureProvider struct {
-	Config           *options.Options
-	Cred             *azidentity.DefaultAzureCredential
-	Log              log.Logger
-	WorkingDirectory string
-}
 
 func checkVirtualNetWork(ctx context.Context, azureProvider *AzureProvider) (*armnetwork.VirtualNetwork, bool) {
 	vnetClient, err := armnetwork.NewVirtualNetworksClient(azureProvider.Config.SubscriptionID, azureProvider.Cred, nil)

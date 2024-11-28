@@ -1,6 +1,6 @@
 module github.com/loft-sh/devpod-provider-azure
 
-go 1.21
+go 1.23
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.16.0

@@ -25,8 +25,8 @@ type AzureProvider struct {
 	WorkingDirectory string
 }
 
-func NewProvider(logs log.Logger) (*AzureProvider, error) {
-	config, err := options.FromEnv(false)
+func NewProvider(withFolder bool, logs log.Logger) (*AzureProvider, error) {
+	config, err := options.FromEnv(false, withFolder)
 	if err != nil {
 		return nil, err
 	}

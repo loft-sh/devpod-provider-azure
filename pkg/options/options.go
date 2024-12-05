@@ -43,7 +43,7 @@ type AzureImage struct {
 	Version   string
 }
 
-func FromEnv(init bool) (*Options, error) {
+func FromEnv(init, withFolder bool) (*Options, error) {
 	retOptions := &Options{}
 
 	var err error
@@ -117,9 +117,11 @@ func FromEnv(init bool) (*Options, error) {
 	// prefix with devpod-
 	retOptions.MachineID = "devpod-" + retOptions.MachineID
 
-	retOptions.MachineFolder, err = FromEnvOrError("MACHINE_FOLDER")
-	if err != nil {
-		return nil, err
+	if withFolder {
+		retOptions.MachineFolder, err = FromEnvOrError("MACHINE_FOLDER")
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return retOptions, nil

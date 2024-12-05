@@ -35,7 +35,7 @@ func NewStatusCmd() *cobra.Command {
 		Use:   "status",
 		Short: "Status an instance",
 		RunE: func(_ *cobra.Command, args []string) error {
-			azureProvider, err := azure.NewProvider(log.Default)
+			azureProvider, err := azure.NewProvider(true, log.Default)
 			if err != nil {
 				return err
 			}

@@ -23,7 +23,7 @@ func NewCommandCmd() *cobra.Command {
 		Use:   "command",
 		Short: "Command an instance",
 		RunE: func(_ *cobra.Command, args []string) error {
-			azureProvider, err := azure.NewProvider(log.Default)
+			azureProvider, err := azure.NewProvider(true, log.Default)
 			if err != nil {
 				return err
 			}

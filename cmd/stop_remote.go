@@ -20,7 +20,7 @@ func NewStopRemoteCmd() *cobra.Command {
 		Use:   "stop-remote",
 		Short: "StopRemote an instance",
 		RunE: func(_ *cobra.Command, args []string) error {
-			azureProvider, err := azure.NewProvider(false, log.Default)
+			azureProvider, err := azure.NewProvider(log.Default)
 			if err != nil {
 				return err
 			}

@@ -20,7 +20,7 @@ func NewDeleteCmd() *cobra.Command {
 		Use:   "delete",
 		Short: "Delete an instance",
 		RunE: func(_ *cobra.Command, args []string) error {
-			azureProvider, err := azure.NewProvider(true, log.Default)
+			azureProvider, err := azure.NewProvider(log.Default)
 			if err != nil {
 				return err
 			}

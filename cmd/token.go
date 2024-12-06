@@ -19,7 +19,7 @@ func NewTokenCmd() *cobra.Command {
 		Use:   "token",
 		Short: "Token an instance",
 		RunE: func(_ *cobra.Command, args []string) error {
-			azureProvider, err := azure.NewProvider(true, log.Default)
+			azureProvider, err := azure.NewProvider(log.Default)
 			if err != nil {
 				return err
 			}

@@ -11,6 +11,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
@@ -146,7 +147,10 @@ func Status(ctx context.Context, azureProvider *AzureProvider) (client.Status, e
 		return client.StatusNotFound, nil
 	}
 
-	status := resource.Statuses[1].DisplayStatus
+	status := to.Ptr[string]("")
+	if len(resource.Statuses) > 1 {
+		status = resource.Statuses[1].DisplayStatus
+	}
 
 	switch {
 	case *status == "VM running":
